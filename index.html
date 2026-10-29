@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>jeito. — Plano financeiro de 5 anos</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--f:#14302A;--g:#1F5C4D;--p:#FBF8F3;--a:#F3ECE0;--c:#EE6A43;--b:#FFD98A;--m:#DCEBDD}
+*{box-sizing:border-box;margin:0}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth}
+body{font:16px/1.55 Inter,sans-serif;background:var(--p);color:var(--f)}
+h1,h2,h3{font-family:Fraunces,serif;line-height:1.1}
+h2{font-size:clamp(28px,4vw,44px);margin-bottom:8px}
+.logo{font:700 24px Fraunces,serif}.logo i{color:var(--c);font-style:normal}
+nav{position:fixed;inset:0 0 auto;z-index:9;display:flex;justify-content:space-between;align-items:center;padding:12px 5vw;background:#fbf8f3ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--a)}
+nav div{display:flex;gap:18px;font-size:14px}nav a{color:var(--g);text-decoration:none;font-weight:500}nav a:hover{color:var(--c)}
+section{min-height:100vh;padding:96px 5vw 56px;scroll-snap-align:start;max-width:1280px;margin:auto}
+.lead{color:var(--g);max-width:640px;margin-bottom:24px}
+.cover{display:flex;flex-direction:column;justify-content:center}
+.cover h1{font-size:clamp(40px,7vw,84px);max-width:900px;margin:16px 0}
+.cover h1 em{color:var(--c);font-style:normal}
+.btn,.seg button{border:0;border-radius:99px;padding:10px 20px;font:600 14px Inter;cursor:pointer;background:var(--a);color:var(--f)}
+.btn{background:var(--c);color:#fff;align-self:flex-start;text-decoration:none;display:inline-block}
+.seg{display:flex;gap:8px;flex-wrap:wrap}.seg button.on{background:var(--f);color:#fff}
+.card{background:#fff;border:1px solid var(--a);border-radius:20px;padding:22px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin:18px 0}
+.kpi{background:var(--m);border-radius:16px;padding:14px 16px}.kpi.hl{background:var(--f);color:#fff}
+.kpi small{display:block;font-size:12px;opacity:.75}.kpi b{font:700 24px Fraunces,serif}
+.ctrl{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:14px 0}
+.ctrl label{font-size:13px;font-weight:600;display:block}.ctrl output{color:var(--c);font-weight:700}
+input[type=range]{width:100%;accent-color:var(--c)}
+.chart{position:relative;height:290px}
+.two{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));margin-top:16px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}
+th{background:var(--f);color:#fff;font-weight:600;padding:9px 12px;text-align:right;white-space:nowrap}
+td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--a);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}tr:hover td{background:var(--p)}
+.price{font:700 40px Fraunces,serif}.price small{font:14px Inter;color:var(--g)}
+.step{border-left:4px solid var(--c)}.step h3{font-size:20px;margin:4px 0 6px}.tag{font-size:12px;font-weight:600;color:var(--c)}
+ul{padding-left:18px}li{margin:4px 0}
+.note{font-size:12px;color:var(--g);margin-top:14px}
+</style>
+</head>
+<body>
+<nav><span class="logo">jeito<i>.</i></span>
+<div><a href="#s1">Início</a><a href="#s2">Modelo</a><a href="#s3">Simulador</a><a href="#s4">Cenários</a><a href="#s5">Metas</a><a href="#s6">Caminho</a></div></nav>
+
+<section id="s1" class="cover">
+  <span class="tag">JEITO by JOVEMODERNO · jeito.app</span>
+  <h1>Do primeiro cliente ao <em>patrimônio</em> em 5 anos.</h1>
+  <p class="lead">Plano financeiro com dois planos pagos (Inicial R$ 19,90 e Pro R$ 39,90), aquisição orgânica, reinvestimento disciplinado e lucro virando investimento todo mês.</p>
+  <a class="btn" href="#s3">Abrir o simulador</a>
+</section>
+
+<section id="s2">
+  <h2>Como o modelo funciona</h2>
+  <p class="lead">Parte de zero assinantes pagantes. O plano Grátis não gera receita e não entra na conta.</p>
+  <div class="grid">
+    <div class="card"><span class="tag">PLANO INICIAL</span><div class="price">R$ 19,90<small> /mês</small></div><p>Entrada do cliente: página comercial, serviços e agendamento básico.</p></div>
+    <div class="card"><span class="tag">PLANO PRO</span><div class="price">R$ 39,90<small> /mês</small></div><p>Design completo personalizado, sem marca e domínio próprio.</p></div>
+    <div class="card"><span class="tag">CRESCIMENTO</span><h3>Orgânico e composto</h3><p>Conteúdo, redes e parcerias crescem e desaceleram; indicações são proporcionais à base ativa.</p></div>
+  </div>
+  <h3 style="margin:28px 0 12px">Para onde vai cada real de lucro</h3>
+  <div class="grid">
+    <div class="card step"><span class="tag">1º</span><h3>Reinvestir</h3><p>32% da receita no ano 1, caindo para 15% no ano 5 (aquisição + produto).</p></div>
+    <div class="card step"><span class="tag">2º</span><h3>Reserva</h3><p>30% do lucro até cobrir 6 meses de despesas.</p></div>
+    <div class="card step"><span class="tag">3º</span><h3>Investir</h3><p>Parte do restante aplicada todo mês, com juros compostos.</p></div>
+    <div class="card step"><span class="tag">4º</span><h3>Fundador</h3><p>O que sobra vira distribuição de lucros.</p></div>
+  </div>
+  <p class="note">Custos considerados: Simples Nacional (Anexo III), taxas de pagamento, reembolsos, infraestrutura, suporte, pessoal (20% da receita) e despesas fixas, com inflação de 4,5% ao ano nos custos.</p>
+</section>
+
+<section id="s3">
+  <h2>Simulador</h2>
+  <p class="lead">Escolha um cenário-base e mexa nos controles. Tudo recalcula em 60 meses.</p>
+  <div class="seg" id="seg"></div>
+  <div class="ctrl">
+    <div><label>Novos clientes por mês no início: <output id="o-init"></output></label><input type="range" id="init" min="3" max="80" step="1"></div>
+    <div><label>Clientes que escolhem o Pro: <output id="o-prem"></output></label><input type="range" id="prem" min="5" max="60" step="1"></div>
+    <div><label>% do lucro investido todo mês: <output id="o-inv"></output></label><input type="range" id="inv" min="0" max="100" step="5"></div>
+    <div><label>Rentabilidade líquida ao ano: <output id="o-rinv"></output></label><input type="range" id="rinv" min="4" max="14" step="0.5"></div>
+  </div>
+  <div class="kpis" id="kpis"></div>
+  <div class="two">
+    <div class="card"><h3>Assinantes ativos</h3><div class="chart"><canvas id="c1"></canvas></div></div>
+    <div class="card"><h3>Faturamento e lucro disponível (mês)</h3><div class="chart"><canvas id="c2"></canvas></div></div>
+    <div class="card"><h3>Patrimônio financeiro no fim de cada ano</h3><div class="chart"><canvas id="c3"></canvas></div></div>
+    <div class="card"><h3>Leitura rápida</h3><ul id="read"></ul></div>
+  </div>
+  <p class="note">Simulação, não garantia. O crescimento exponencial é uma hipótese a validar.</p>
+</section>
+
+<section id="s4">
+  <h2>Os três cenários</h2>
+  <p class="lead">Dados da planilha: investimento de 70% do lucro restante a 8,5% ao ano.</p>
+  <div class="two" style="margin-top:0">
+    <div class="card tw"><table id="tb4"></table></div>
+    <div class="card"><h3>Patrimônio financeiro</h3><div class="chart"><canvas id="c4"></canvas></div></div>
+  </div>
+</section>
+
+<section id="s5">
+  <h2>Metas mês a mês</h2>
+  <p class="lead">Metas do cenário que está no simulador. Troque o ano para ver os 12 meses.</p>
+  <div class="seg" id="yrs"></div>
+  <div class="kpis"><div class="kpi hl"><small>Novos clientes nos 3 primeiros meses (modelo)</small><b id="m90"></b></div>
+  <div class="kpi"><small>Faixas de meta dos primeiros 90 dias</small><b>5–10 · 15–25 · 30–50</b></div></div>
+  <div class="card tw"><table id="tb5"></table></div>
+</section>
+
+<section id="s6">
+  <h2>O caminho</h2>
+  <p class="lead">Quatro fases, com gatilhos de decisão para não investir mais antes da hora.</p>
+  <div class="grid">
+    <div class="card step"><span class="tag">MESES 1–3</span><h3>Validar</h3><p>Começar por barbearias e beleza, ativar as primeiras páginas e medir o que os clientes realmente usam.</p></div>
+    <div class="card step"><span class="tag">MESES 4–12</span><h3>Provar retenção</h3><p>Churn do Inicial abaixo de 5% e do Pro abaixo de 3,5%, indicações acima de 30% dos novos clientes.</p></div>
+    <div class="card step"><span class="tag">ANOS 2–3</span><h3>Escalar com disciplina</h3><p>Reserva de 6 meses completa, plano anual com desconto e mix do Pro acima de 30%.</p></div>
+    <div class="card step"><span class="tag">ANOS 4–5</span><h3>Virar patrimônio</h3><p>Reinvestimento cai, aportes crescem e o negócio depende menos de crescimento contínuo.</p></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Gatilhos de decisão</h3><ul>
+    <li><b>Mês 6:</b> base abaixo de 50% do cenário conservador? Revisar produto, preço ou nicho antes de gastar mais em aquisição.</li>
+    <li><b>Mês 12:</b> churn acima do conservador? Pausar aquisição e focar em retenção.</li>
+    <li><b>Reserva cheia:</b> aumentar a % investida e reduzir a distribuição.</li></ul></div>
+  <p class="note">Valide enquadramento tributário e investimentos com um contador. Este material não é recomendação financeira.</p>
+</section>
+
+<script>
+const G={p1:19.9,p2:39.9,fee:.035,fix:.39,rf:.015,hf:250,hv:.5,sf:80,sv:1.2,st:.2,of:500,inf:.045,af:400,pf:200,rm:6,rp:.3,rres:.08,cap:1e4,
+A:[[.2,.12],[.15,.1],[.12,.08],[.1,.08],[.08,.07]],
+T:[[0,.06,0],[180000.01,.112,9360],[360000.01,.135,17640],[720000.01,.16,35640],[1800000.01,.21,125640],[3600000.01,.33,648000]]};
+const SC=[{n:'Conservador',init:10,g0:.10,d:.94,ref:.008,prem:.18,cb:.075,cp:.05},
+{n:'Moderado',init:18,g0:.14,d:.945,ref:.012,prem:.25,cb:.06,cp:.04},
+{n:'Agressivo',init:28,g0:.17,d:.95,ref:.018,prem:.32,cb:.045,cp:.03}];
+const rate=x=>{if(x>4.8e6)return .145;if(x<=0)return .06;let q=G.T[0];for(const k of G.T)if(x>=k[0])q=k;return Math.max(0,(x*q[1]-q[2])/x)};
+
+function sim(s,o){
+  const R=[],rv=[];let a1=0,a2=0,ch=s.init,tot=0,cash=G.cap,rb=0,ib=0,ic=0;
+  const rm=(1+G.rres)**(1/12)-1,im=(1+o.rinv)**(1/12)-1;
+  for(let t=1;t<=60;t++){
+    const y=Math.ceil(t/12),inf=(1+G.inf)**(y-1);
+    if(t>1)ch*=1+s.g0*s.d**(t-2);
+    const nw=ch+(t>1?tot*s.ref:0),p1=a1,p2=a2,pt=tot;
+    a1=a1-p1*(t>1?s.cb:0)+nw*(1-s.prem);a2=a2-p2*(t>1?s.cp:0)+nw*s.prem;tot=a1+a2;
+    const avg=(pt+tot)/2,rev=(p1+a1)/2*G.p1+(p2+a2)/2*G.p2;rv.push(rev);
+    const rbt=t==1?rev*12:t<=12?rv.slice(0,t-1).reduce((x,z)=>x+z,0)/(t-1)*12:rv.slice(t-13,t-1).reduce((x,z)=>x+z,0);
+    const opex=rev*rate(rbt)+rev*G.fee+avg*G.fix+rev*G.rf+(G.hf+G.hv*avg)*inf+(G.sf+G.sv*avg)*inf+rev*G.st+G.of*inf;
+    const reinv=Math.max(G.af*inf,rev*G.A[y-1][0])+Math.max(G.pf*inf,rev*G.A[y-1][1]);
+    const profit=rev-opex-reinv;
+    const cm=profit<0?profit:Math.min(profit,Math.max(G.cap-cash,0));cash+=cm;
+    const av=Math.max(profit,0)-Math.max(cm,0);
+    const rc=Math.min(av*G.rp,Math.max(G.rm*(opex+reinv)-rb*(1+rm),0));rb=rb*(1+rm)+rc;
+    const inv=(av-rc)*o.inv;ib=ib*(1+im)+inv;ic+=inv;
+    R.push({t,y,nw,tot,s1:a1,s2:a2,rev,mrr:a1*G.p1+a2*G.p2,opex,reinv,profit,rc,inv,ib,ic,rb,w:ib+rb,cash});
+  }
+  return R;
+}
+const $=id=>document.getElementById(id);
+const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+const sh=v=>{const a=Math.abs(v);return a>=1e6?(v/1e6).toFixed(2).replace('.',',')+' mi':a>=1e3?Math.round(v/1e3)+' mil':Math.round(v)};
+const n0=v=>Math.round(v).toLocaleString('pt-BR');
+const sum=(R,k)=>R.reduce((a,r)=>a+r[k],0);
+const S={sc:1,init:18,prem:25,inv:70,rinv:8.5,yr:1};
+const mk=(id,type,ds,stk)=>new Chart($(id),{type,data:{labels:[],datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},
+  interaction:{mode:'index',intersect:false},elements:{point:{radius:0},line:{borderWidth:2.5,tension:.25}},
+  plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.dataset.n?n0(c.parsed.y):brl(c.parsed.y))}}},
+  scales:{y:{stacked:stk,ticks:{callback:v=>sh(v)}},x:{stacked:stk,ticks:{maxTicksLimit:10}}}}});
+const ds=(l,c,f,n)=>({label:l,backgroundColor:c,borderColor:c,fill:f,data:[],n});
+const mon=Array.from({length:60},(_,i)=>i+1);
+const c1=mk('c1','line',[ds('Plano Inicial','#1F5C4D88',true,1),ds('Plano Pro','#EE6A4388',true,1)],true);
+const c2=mk('c2','line',[ds('Faturamento','#1F5C4D',false),ds('Lucro disponível','#EE6A43',false)]);
+const c3=mk('c3','bar',[ds('Capital investido','#1F5C4D'),ds('Rendimentos','#FFD98A'),ds('Reserva de emergência','#9CC5A8')],true);
+const c4=mk('c4','line',SC.map((s,i)=>ds(s.n,['#8a9a93','#1F5C4D','#EE6A43'][i],false)));
+
+function render(){
+  const s={...SC[S.sc],init:S.init,prem:S.prem/100},R=sim(s,{inv:S.inv/100,rinv:S.rinv/100}),L=R[59];
+  ['init','prem','inv','rinv'].forEach(k=>$('o-'+k).textContent=S[k]+(k=='init'?' clientes':'%'));
+  const lucro=sum(R,'profit'),be=R.find(r=>r.profit>0);
+  const K=[['Assinantes no mês 60',n0(L.tot)],['MRR no mês 60',brl(L.mrr)],['Faturamento em 5 anos',brl(sum(R,'rev'))],
+   ['Reinvestido em 5 anos',brl(sum(R,'reinv'))],['Lucro disponível em 5 anos',brl(lucro)],['Patrimônio financeiro',brl(L.w),1]];
+  $('kpis').innerHTML=K.map(k=>`<div class="kpi ${k[2]?'hl':''}"><small>${k[0]}</small><b>${k[1]}</b></div>`).join('');
+  c1.data.labels=c2.data.labels=mon;
+  c1.data.datasets[0].data=R.map(r=>r.s1);c1.data.datasets[1].data=R.map(r=>r.s2);
+  c2.data.datasets[0].data=R.map(r=>r.rev);c2.data.datasets[1].data=R.map(r=>r.profit);
+  const Y=[1,2,3,4,5].map(y=>R[y*12-1]);
+  c3.data.labels=Y.map((_,i)=>'Ano '+(i+1));
+  c3.data.datasets[0].data=Y.map(r=>r.ic);c3.data.datasets[1].data=Y.map(r=>r.ib-r.ic);c3.data.datasets[2].data=Y.map(r=>r.rb);
+  [c1,c2,c3].forEach(c=>c.update());
+  $('read').innerHTML=`<li>${be?`Lucro disponível positivo a partir do <b>mês ${be.t}</b>.`:'<b>Não há lucro positivo</b> nesse cenário: aumente clientes ou reduza o reinvestimento.'}</li>
+   <li>Necessidade máxima de caixa: <b>${brl(Math.max(0,G.cap-Math.min(...R.map(r=>r.cash))))}</b> (colchão inicial de ${brl(G.cap)}).</li>
+   <li>Dos <b>${brl(L.ib)}</b> investidos, <b>${brl(L.ic)}</b> são aportes e <b>${brl(L.ib-L.ic)}</b> são rendimentos.</li>
+   <li>A reserva de emergência chega a <b>${brl(L.rb)}</b>.</li>
+   <li>Cada cliente a mais por mês no início muda o patrimônio final; teste com o controle acima.</li>`;
+  $('m90').textContent=n0(R[0].nw+R[1].nw+R[2].nw)+' clientes';
+  const ys=R.slice((S.yr-1)*12,S.yr*12);
+  $('tb5').innerHTML='<tr><th>Mês</th><th>Novos clientes</th><th>Assinantes ativos</th><th>Faturamento</th><th>Despesas</th><th>Reinvestimento</th><th>Aporte reserva</th><th>Aporte investimento</th></tr>'+
+   ys.map(r=>`<tr><td>${r.t}</td><td>${n0(r.nw)}</td><td>${n0(r.tot)}</td><td>${brl(r.rev)}</td><td>${brl(r.opex)}</td><td>${brl(r.reinv)}</td><td>${brl(r.rc)}</td><td>${brl(r.inv)}</td></tr>`).join('');
+}
+function fixed(){
+  const RR=SC.map(s=>sim(s,{inv:.7,rinv:.085}));
+  const rows=[['Assinantes no mês 60',R=>n0(R[59].tot)],['MRR no mês 60',R=>brl(R[59].mrr)],['Faturamento em 5 anos',R=>brl(sum(R,'rev'))],
+   ['Reinvestido',R=>brl(sum(R,'reinv'))],['Lucro disponível',R=>brl(sum(R,'profit'))],['Reserva de emergência',R=>brl(R[59].rb)],
+   ['Capital investido',R=>brl(R[59].ic)],['Rendimentos',R=>brl(R[59].ib-R[59].ic)],['Patrimônio financeiro',R=>brl(R[59].w)]];
+  $('tb4').innerHTML='<tr><th></th>'+SC.map(s=>`<th>${s.n}</th>`).join('')+'</tr>'+rows.map(r=>`<tr><td>${r[0]}</td>${RR.map(R=>`<td>${r[1](R)}</td>`).join('')}</tr>`).join('');
+  c4.data.labels=mon;RR.forEach((R,i)=>c4.data.datasets[i].data=R.map(r=>r.w));c4.update();
+}
+function setSc(i){
+  S.sc=i;S.init=SC[i].init;S.prem=Math.round(SC[i].prem*100);
+  ['init','prem'].forEach(k=>$(k).value=S[k]);
+  document.querySelectorAll('#seg button').forEach((b,j)=>b.classList.toggle('on',j==i));render();
+}
+$('seg').innerHTML=SC.map((s,i)=>`<button>${s.n}</button>`).join('');
+document.querySelectorAll('#seg button').forEach((b,i)=>b.onclick=()=>setSc(i));
+$('yrs').innerHTML=[1,2,3,4,5].map(y=>`<button>Ano ${y}</button>`).join('');
+document.querySelectorAll('#yrs button').forEach((b,i)=>b.onclick=()=>{S.yr=i+1;document.querySelectorAll('#yrs button').forEach((x,j)=>x.classList.toggle('on',j==i));render()});
+document.querySelector('#yrs button').classList.add('on');
+['init','prem','inv','rinv'].forEach(k=>{$(k).value=S[k];$(k).oninput=e=>{S[k]=+e.target.value;render()}});
+fixed();setSc(1);
+addEventListener('keydown',e=>{
+  if(e.target.tagName=='INPUT')return;
+  const ss=[...document.querySelectorAll('section')],i=ss.findIndex(x=>x.getBoundingClientRect().bottom>innerHeight/2);
+  if(e.key=='ArrowRight'||e.key=='PageDown')ss[Math.min(i+1,ss.length-1)].scrollIntoView();
+  if(e.key=='ArrowLeft'||e.key=='PageUp')ss[Math.max(i-1,0)].scrollIntoView();
+});
+</script>
+</body>
+</html>
