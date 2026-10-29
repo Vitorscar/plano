@@ -24,11 +24,12 @@ section{min-height:100vh;padding:96px 5vw 56px;scroll-snap-align:start;max-width
 .btn,.seg button{border:0;border-radius:99px;padding:10px 20px;font:600 14px Inter;cursor:pointer;background:var(--a);color:var(--f)}
 .btn{background:var(--c);color:#fff;align-self:flex-start;text-decoration:none;display:inline-block}
 .seg{display:flex;gap:8px;flex-wrap:wrap}.seg button.goal{background:var(--b)}.seg button.on{background:var(--f);color:#fff}
+.seg.inv button.on{background:var(--c)}
 .card{background:#fff;border:1px solid var(--a);border-radius:20px;padding:22px}
 .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
 .kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin:18px 0}
 .kpi{background:var(--m);border-radius:16px;padding:14px 16px}.kpi.hl{background:var(--f);color:#fff}
-.kpi small{display:block;font-size:12px;opacity:.75}.kpi b{font:700 24px Fraunces,serif}
+.kpi.warn{background:#FFE3D6}.kpi small{display:block;font-size:12px;opacity:.75}.kpi b{font:700 24px Fraunces,serif}
 .ctrl{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:14px 0}
 .ctrl label{font-size:13px;font-weight:600;display:block}.ctrl output{color:var(--c);font-weight:700}
 input[type=range]{width:100%;accent-color:var(--c)}
@@ -42,11 +43,23 @@ th:first-child,td:first-child{text-align:left}tr:hover td{background:var(--p)}
 .step{border-left:4px solid var(--c)}.step h3{font-size:20px;margin:4px 0 6px}.tag{font-size:12px;font-weight:600;color:var(--c)}
 ul{padding-left:18px}li{margin:4px 0}
 .note{font-size:12px;color:var(--g);margin-top:14px}
+.inv-card{background:#fff;border:1px solid var(--a);border-radius:20px;padding:20px;position:relative;overflow:hidden}
+.inv-card::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:var(--ib,#1F5C4D)}
+.inv-card h3{font-size:20px;margin:6px 0 4px}
+.inv-card .rate{font:700 32px Fraunces,serif;color:var(--ib,#1F5C4D)}
+.inv-card .rate small{font:13px Inter;color:var(--g);font-weight:500}
+.inv-card .badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--a);color:var(--g);margin-top:10px}
+.inv-card .badge.risco-b{background:#DCEBDD;color:#1F5C4D}
+.inv-card .badge.risco-m{background:#FFD98A;color:#7a5a10}
+.inv-card .badge.risco-a{background:#FFE3D6;color:#a8431f}
+.inv-card p{font-size:13px;color:var(--g);margin-top:8px}
+.winner{outline:3px solid var(--c);outline-offset:-3px}
+.winner::after{content:"MAIOR RETORNO";position:absolute;top:12px;right:-30px;transform:rotate(45deg);background:var(--c);color:#fff;font:700 10px Inter;padding:4px 40px;letter-spacing:.05em}
 </style>
 </head>
 <body>
 <nav><span class="logo">jeito<i>.</i></span>
-<div><a href="#s1">Início</a><a href="#s2">Modelo</a><a href="#s3">Simulador</a><a href="#s4">Cenários</a><a href="#s5">Metas</a><a href="#s6">Caminho</a></div></nav>
+<div><a href="#s1">Início</a><a href="#s2">Modelo</a><a href="#s3">Simulador</a><a href="#s4">Cenários</a><a href="#s5">Metas</a><a href="#s6">Investimentos</a><a href="#s7">Caminho</a></div></nav>
 
 <section id="s1" class="cover">
   <span class="tag">JEITO by JOVEMODERNO · jeito.app</span>
@@ -112,6 +125,23 @@ ul{padding-left:18px}li{margin:4px 0}
 </section>
 
 <section id="s6">
+  <h2>Onde investir o lucro</h2>
+  <p class="lead">Três classes de investimento. A simulação usa o <b>cenário ativo no simulador</b> e o <b>% do lucro investido</b> escolhido lá. Clique numa classe para simular com ela.</p>
+  <div class="seg inv" id="invseg">
+    <button data-inv="rf" class="on">🏦 Renda fixa</button>
+    <button data-inv="acoes">📈 Ações</button>
+    <button data-inv="fii">🏢 Fundos imobiliários</button>
+  </div>
+  <div class="grid" id="invcards" style="margin-top:18px"></div>
+  <div class="kpis" id="invkpis" style="margin-top:20px"></div>
+  <div class="two">
+    <div class="card"><h3>Patrimônio acumulado — comparação</h3><div class="chart"><canvas id="c5"></canvas></div></div>
+    <div class="card tw"><h3>Comparativo final (mês 60)</h3><table id="tb6"></table></div>
+  </div>
+  <p class="note">Rentabilidades líquidas de imposto, já descontada a inflação esperada de 4,5% a.a. Não consideram marcação a mercado mensal, come-cotas nem risco de crédito. Ações e FIIs são voláteis: o retorno médio histórico não garante retorno futuro. Consulte um assessor credenciado.</p>
+</section>
+
+<section id="s7">
   <h2>O caminho</h2>
   <p class="lead">Quatro fases, com gatilhos de decisão para não investir mais antes da hora.</p>
   <div class="grid">
@@ -134,6 +164,16 @@ T:[[0,.06,0],[180000.01,.112,9360],[360000.01,.135,17640],[720000.01,.16,35640],
 const SC=[{n:'Conservador',init:10,g0:.10,d:.94,ref:.008,prem:.18,cb:.075,cp:.05},
 {n:'Moderado',init:18,g0:.14,d:.945,ref:.012,prem:.25,cb:.06,cp:.04},
 {n:'Agressivo',init:28,g0:.17,d:.95,ref:.018,prem:.32,cb:.045,cp:.03}];
+
+// ── Classes de investimento (rentabilidade LÍQUIDA ao ano, já deflacionada) ──
+const INV = {
+  rf:   {n:'Renda fixa',  r:.085, vol:'baixa',  risk:'risco-b', cor:'#1F5C4D',
+         d:'Tesouro Selic, CDB, LCI/LCA. Baixa volatilidade, liquidez diária, previsível.'},
+  acoes:{n:'Ações',       r:.120, vol:'alta',   risk:'risco-a', cor:'#EE6A43',
+         d:'Carteira diversificada de empresas listadas. Alta volatilidade, retorno histórico maior, horizonte longo.'},
+  fii:  {n:'Fundos imob.',r:.098, vol:'média',  risk:'risco-m', cor:'#B08828',
+         d:'FIIs de tijolo e papel. Renda mensal isenta de IR para PF, retorno entre renda fixa e ações.'}
+};
 const rate=x=>{if(x>4.8e6)return .145;if(x<=0)return .06;let q=G.T[0];for(const k of G.T)if(x>=k[0])q=k;return Math.max(0,(x*q[1]-q[2])/x)};
 
 function sim(s,o){
@@ -162,7 +202,8 @@ const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFr
 const sh=v=>{const a=Math.abs(v);return a>=1e6?(v/1e6).toFixed(2).replace('.',',')+' mi':a>=1e3?Math.round(v/1e3)+' mil':Math.round(v)};
 const n0=v=>Math.round(v).toLocaleString('pt-BR');
 const sum=(R,k)=>R.reduce((a,r)=>a+r[k],0);
-const S={sc:1,init:18,prem:25,inv:70,rinv:8.5,yr:1};
+const S={sc:1,init:18,prem:25,inv:70,rinv:8.5,yr:1,invClass:'rf'};
+
 const mk=(id,type,ds,stk)=>new Chart($(id),{type,data:{labels:[],datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},
   interaction:{mode:'index',intersect:false},elements:{point:{radius:0},line:{borderWidth:2.5,tension:.25}},
   plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.dataset.n?n0(c.parsed.y):brl(c.parsed.y))}}},
@@ -173,6 +214,7 @@ const c1=mk('c1','line',[ds('Plano Inicial','#1F5C4D88',true,1),ds('Plano Pro','
 const c2=mk('c2','line',[ds('Faturamento','#1F5C4D',false),ds('Lucro disponível','#EE6A43',false)]);
 const c3=mk('c3','bar',[ds('Capital investido','#1F5C4D'),ds('Rendimentos','#FFD98A'),ds('Reserva de emergência','#9CC5A8')],true);
 const c4=mk('c4','line',SC.map((s,i)=>ds(s.n,['#8a9a93','#1F5C4D','#EE6A43'][i],false)));
+const c5=mk('c5','line',Object.values(INV).map((v,i)=>ds(v.n,v.cor,false)));
 
 function render(){
   const s={...SC[S.sc],init:S.init,prem:S.prem/100},R=sim(s,{inv:S.inv/100,rinv:S.rinv/100}),L=R[59];
@@ -197,7 +239,46 @@ function render(){
   const ys=R.slice((S.yr-1)*12,S.yr*12);
   $('tb5').innerHTML='<tr><th>Mês</th><th>Novos clientes</th><th>Assinantes ativos</th><th>Faturamento</th><th>Despesas</th><th>Reinvestimento</th><th>Aporte reserva</th><th>Aporte investimento</th></tr>'+
    ys.map(r=>`<tr><td>${r.t}</td><td>${n0(r.nw)}</td><td>${n0(r.tot)}</td><td>${brl(r.rev)}</td><td>${brl(r.opex)}</td><td>${brl(r.reinv)}</td><td>${brl(r.rc)}</td><td>${brl(r.inv)}</td></tr>`).join('');
+  renderInv();
 }
+
+// ── Seção de investimentos ──
+function simInv(cls){
+  const s={...SC[S.sc],init:S.init,prem:S.prem/100};
+  return sim(s,{inv:S.inv/100,rinv:INV[cls].r});
+}
+function renderInv(){
+  const res={};Object.keys(INV).forEach(k=>res[k]=simInv(k)[59]);
+  const best=Object.keys(INV).reduce((a,b)=>res[a].w>=res[b].w?a:b);
+  document.querySelectorAll('#invseg button').forEach(b=>b.classList.toggle('on',b.dataset.inv===S.invClass));
+  $('invcards').innerHTML=Object.entries(INV).map(([k,v])=>{
+    const r=res[k],win=k===best?'winner':'',sel=k===S.invClass?'border:2px solid '+v.cor:'';
+    return `<div class="inv-card ${win}" style="--ib:${v.cor};${sel}">
+      <span class="tag" style="color:${v.cor}">${v.n.toUpperCase()}</span>
+      <div class="rate">${(v.r*100).toFixed(1)}%<small> /ano líquido</small></div>
+      <span class="badge ${v.risk}">volatilidade ${v.vol}</span>
+      <p>${v.d}</p>
+      <p style="margin-top:12px;font-weight:600;color:var(--f)">Patrimônio no mês 60: <b style="color:${v.cor}">${brl(r.w)}</b></p>
+      <p style="font-size:12px">Aportes ${brl(r.ic)} · Rendimentos ${brl(r.ib-r.ic)}</p>
+    </div>`;
+  }).join('');
+  const base=res.rf.w, dr=res.acoes.w-base, df=res.fii.w-base;
+  $('invkpis').innerHTML=`
+    <div class="kpi hl"><small>Melhor retorno: ${INV[best].n}</small><b>${brl(res[best].w)}</b></div>
+    <div class="kpi"><small>Diferença ações vs renda fixa</small><b>${dr>=0?'+':''}${brl(dr)}</b></div>
+    <div class="kpi"><small>Diferença FIIs vs renda fixa</small><b>${df>=0?'+':''}${brl(df)}</b></div>
+    <div class="kpi"><small>% do lucro investido (do simulador)</small><b>${S.inv}%</b></div>`;
+  // gráfico comparativo
+  const all={};Object.keys(INV).forEach(k=>all[k]=simInv(k));
+  c5.data.labels=mon;
+  Object.keys(INV).forEach((k,i)=>c5.data.datasets[i].data=all[k].map(r=>r.w));
+  c5.update();
+  // tabela final
+  $('tb6').innerHTML='<tr><th>Classe</th><th>Rent. a.a.</th><th>Aportes</th><th>Rendimentos</th><th>Patrimônio</th></tr>'+
+    Object.entries(INV).map(([k,v])=>{const r=res[k];return `<tr${k===best?' style="font-weight:700;background:#FFF4EE"':''}><td>${v.n}</td><td>${(v.r*100).toFixed(1)}%</td><td>${brl(r.ic)}</td><td>${brl(r.ib-r.ic)}</td><td>${brl(r.w)}</td></tr>`;}).join('');
+}
+document.querySelectorAll('#invseg button').forEach(b=>b.onclick=()=>{S.invClass=b.dataset.inv;renderInv();});
+
 function fixed(){
   const RR=SC.map(s=>sim(s,{inv:.7,rinv:.085}));
   const rows=[['Assinantes no mês 60',R=>n0(R[59].tot)],['MRR no mês 60',R=>brl(R[59].mrr)],['Faturamento em 5 anos',R=>brl(sum(R,'rev'))],
