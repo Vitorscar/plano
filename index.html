@@ -23,7 +23,7 @@ section{min-height:100vh;padding:96px 5vw 56px;scroll-snap-align:start;max-width
 .cover h1 em{color:var(--c);font-style:normal}
 .btn,.seg button{border:0;border-radius:99px;padding:10px 20px;font:600 14px Inter;cursor:pointer;background:var(--a);color:var(--f)}
 .btn{background:var(--c);color:#fff;align-self:flex-start;text-decoration:none;display:inline-block}
-.seg{display:flex;gap:8px;flex-wrap:wrap}.seg button.on{background:var(--f);color:#fff}
+.seg{display:flex;gap:8px;flex-wrap:wrap}.seg button.goal{background:var(--b)}.seg button.on{background:var(--f);color:#fff}
 .card{background:#fff;border:1px solid var(--a);border-radius:20px;padding:22px}
 .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
 .kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin:18px 0}
@@ -188,7 +188,7 @@ function render(){
   c3.data.labels=Y.map((_,i)=>'Ano '+(i+1));
   c3.data.datasets[0].data=Y.map(r=>r.ic);c3.data.datasets[1].data=Y.map(r=>r.ib-r.ic);c3.data.datasets[2].data=Y.map(r=>r.rb);
   [c1,c2,c3].forEach(c=>c.update());
-  $('read').innerHTML=`<li>${be?`Lucro disponível positivo a partir do <b>mês ${be.t}</b>.`:'<b>Não há lucro positivo</b> nesse cenário: aumente clientes ou reduza o reinvestimento.'}</li>
+  $('read').innerHTML=`<li>Meta de R$ 7 mi: ${L.w>=7e6?'<b>atingida</b>':`<b>${Math.round(L.w/7e4)}%</b> da meta (faltam ${brl(7e6-L.w)})`}.</li><li>${be?`Lucro disponível positivo a partir do <b>mês ${be.t}</b>.`:'<b>Não há lucro positivo</b> nesse cenário: aumente clientes ou reduza o reinvestimento.'}</li>
    <li>Necessidade máxima de caixa: <b>${brl(Math.max(0,G.cap-Math.min(...R.map(r=>r.cash))))}</b> (colchão inicial de ${brl(G.cap)}).</li>
    <li>Dos <b>${brl(L.ib)}</b> investidos, <b>${brl(L.ic)}</b> são aportes e <b>${brl(L.ib-L.ic)}</b> são rendimentos.</li>
    <li>A reserva de emergência chega a <b>${brl(L.rb)}</b>.</li>
@@ -207,11 +207,12 @@ function fixed(){
   c4.data.labels=mon;RR.forEach((R,i)=>c4.data.datasets[i].data=R.map(r=>r.w));c4.update();
 }
 function setSc(i){
-  S.sc=i;S.init=SC[i].init;S.prem=Math.round(SC[i].prem*100);
-  ['init','prem'].forEach(k=>$(k).value=S[k]);
+  const m=i==3;S.sc=m?2:i;S.init=m?63:SC[i].init;S.prem=m?32:Math.round(SC[i].prem*100);
+  S.inv=m?100:70;S.rinv=m?12:8.5;
+  ['init','prem','inv','rinv'].forEach(k=>$(k).value=S[k]);
   document.querySelectorAll('#seg button').forEach((b,j)=>b.classList.toggle('on',j==i));render();
 }
-$('seg').innerHTML=SC.map((s,i)=>`<button>${s.n}</button>`).join('');
+$('seg').innerHTML=SC.map((s,i)=>`<button>${s.n}</button>`).join('')+'<button class="goal">Meta R$ 7 mi</button>';
 document.querySelectorAll('#seg button').forEach((b,i)=>b.onclick=()=>setSc(i));
 $('yrs').innerHTML=[1,2,3,4,5].map(y=>`<button>Ano ${y}</button>`).join('');
 document.querySelectorAll('#yrs button').forEach((b,i)=>b.onclick=()=>{S.yr=i+1;document.querySelectorAll('#yrs button').forEach((x,j)=>x.classList.toggle('on',j==i));render()});
